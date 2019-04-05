@@ -40,6 +40,9 @@
                     Donation Amount
                   </th>
                   <th>
+                    Anonymous
+                  </th>
+                  <th>
                     First Name
                   </th>
                   <th>
@@ -63,6 +66,9 @@
                   <th>
                     Payment Type
                   </th>
+                  <th>
+                    Comments
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -79,6 +85,9 @@
                   <td>
                     <span class="hidden">{{donation.Payment.Amount}}</span>
                     {{donation.Payment._AmountFormatted}}
+                  </td>
+                  <td>
+                    {{donation.IsAnonymous}}
                   </td>
                   <td>
                     {{donation.Donor.ConsName.FirstName}}
@@ -104,6 +113,9 @@
                   </td>
                   <td>
                     {{donation.Payment._TenderTypeFormatted}}
+                  </td>
+                    {{donation.Comments}}
+                  <td>
                   </td>
                 </tr>
               </tbody>

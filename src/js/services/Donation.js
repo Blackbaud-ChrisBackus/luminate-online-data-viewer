@@ -18,7 +18,8 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
       
       WebServicesService.query({
         statement: 'select TransactionId, CampaignId, FormId,' + 
-                   ' Payment.Amount, Payment.PaymentDate, Payment.TenderType, Payment.CreditCardType,' + 
+                   ' Payment.Amount, Payment.PaymentDate, Payment.TenderType, Payment.CreditCardType, Payment.CustomString13,' + 
+                   ' Recognition.IsAnonymous,' +
                    ' Donor.ConsName.FirstName, Donor.ConsName.LastName,' + 
                    ' Donor.PrimaryEmail,' + 
                    ' Donor.HomeAddress.City, Donor.HomeAddress.State,' + 
@@ -51,17 +52,20 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
                 campaignId = $(this).find('CampaignId').text(), 
                 formId = $(this).find('FormId').text(), 
                 $payment = $(this).find('Payment'), 
+                $recognition = $(this).find('Recognition'), 
                 paymentAmount = Number($payment.find('Amount').text()), 
                 paymentAmountFormatted = paymentAmount.toLocaleString('en', {
                   style: 'currency', 
                   currency: 'USD', 
                   minimumFractionDigits: 2
                 }), 
+                isAnonymous = $recognition.find('IsAnonymous').val(), 
                 paymentDate = $payment.find('PaymentDate').text(), 
                 paymentDateFormatted = moment(paymentDate).format('MM/DD/YYYY h:mma'), 
                 paymentTenderType = $payment.find('TenderType').text(), 
                 paymentTenderTypeFormatted = '', 
                 paymentCreditCardType = $payment.find('CreditCardType').text(), 
+                paymentComments = $payment.find('CustomString13').text(), 
                 $donor = $(this).find('Donor'), 
                 $donorName = $donor.find('ConsName'), 
                 donorFirstName = $donorName.find('FirstName').text(), 
@@ -105,6 +109,8 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
                   'TransactionId': transactionId, 
                   'CampaignId': campaignId, 
                   'FormId': formId, 
+                  'Comments' : paymentComments,
+                  'IsAnonymous' : isAnonymous,
                   'Payment': {
                     'Amount': paymentAmount, 
                     '_AmountFormatted': paymentAmountFormatted, 
