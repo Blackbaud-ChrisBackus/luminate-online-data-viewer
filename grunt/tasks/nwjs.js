@@ -3,6 +3,7 @@
 module.exports = {
   options: {
     appName: '<%= pkg.window.title %>', 
+    flavor: 'sdk',
     version: '0.21.5', 
     platforms: [
       'osx64', 

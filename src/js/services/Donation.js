@@ -17,12 +17,12 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
       }
       
       WebServicesService.query({
-        statement: 'select TransactionId, CampaignId, FormId,' + 
-                   ' Payment.Amount, Payment.PaymentDate, Payment.TenderType, Payment.CreditCardType, Payment.CustomString13,' + 
-                   ' Recognition.IsAnonymous,' +
+        statement: 'select TransactionId, CampaignId, FormId, Comments,' + 
+                   ' Payment.Amount, Payment.PaymentDate, Payment.TenderType, Payment.CreditCardType,' + 
                    ' Donor.ConsName.FirstName, Donor.ConsName.LastName,' + 
                    ' Donor.PrimaryEmail,' + 
                    ' Donor.HomeAddress.City, Donor.HomeAddress.State,' + 
+                   ' Recognition.IsAnonymous,' +
                    ' RecurringPayment.OriginalTransactionId' + 
                    ' from Donation' + 
                    ' where Payment.PaymentDate &gt;= ' + settings.startDate + 
@@ -65,7 +65,7 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
                 paymentTenderType = $payment.find('TenderType').text(), 
                 paymentTenderTypeFormatted = '', 
                 paymentCreditCardType = $payment.find('CreditCardType').text(), 
-                paymentComments = $payment.find('CustomString13').text(), 
+                paymentComments = $(this).find('Comments').text(), 
                 $donor = $(this).find('Donor'), 
                 $donorName = $donor.find('ConsName'), 
                 donorFirstName = $donorName.find('FirstName').text(), 
