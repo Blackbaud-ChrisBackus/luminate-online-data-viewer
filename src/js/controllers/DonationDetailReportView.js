@@ -10,11 +10,12 @@ dataViewerControllers.controller('DonationDetailReportViewController', ['$scope'
       $scope.$apply();
     }
   };
-  
+
   $scope.reportconfig = $.extend({
     datelabel: 'Last 24 Hours', 
     startdate: moment().subtract(1, 'days'), 
     enddate: moment(), 
+    pagesize: '',
     donationcampaign: '', 
     donationform: ''
   }, StorageService.getStoredData('reportconfig_donations_detail') || {});
@@ -42,6 +43,8 @@ dataViewerControllers.controller('DonationDetailReportViewController', ['$scope'
       $scope.$apply();
     }
   };
+
+
   
   $scope.donationcampaigns = [];
   
@@ -115,6 +118,7 @@ dataViewerControllers.controller('DonationDetailReportViewController', ['$scope'
     DonationService.getDonations({
       startDate: $scope.reportconfig.startdate.format('YYYY-MM-DD[T]HH:mm:ssZ'), 
       endDate: $scope.reportconfig.enddate.format('YYYY-MM-DD[T]HH:mm:ssZ'), 
+      pageSize: $scope.reportconfig.pagesize,
       campaignId: campaignId, 
       formId: formId, 
       success: function(donations) {

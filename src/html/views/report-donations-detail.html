@@ -114,8 +114,8 @@
                   <td>
                     {{donation.Payment._TenderTypeFormatted}}
                   </td>
-                    {{donation.Comments}}
                   <td>
+                    {{donation.Comments}}
                   </td>
                 </tr>
               </tbody>
@@ -155,6 +155,22 @@
             <input type="hidden" name="datelabel" ng-model="reportconfig.datelabel" value="Last 24 Hours">
             <input type="hidden" name="startdate" ng-model="reportconfig.startdate">
             <input type="hidden" name="enddate" ng-model="reportconfig.enddate">
+          </div>
+          <div class="form-group">
+            <label>
+              Results Per Page:
+            </label>
+            <input id="pagesize" type="number" min="5" max="300" class="form-control" placeholder="200" ng-model="reportconfig.pagesize">
+          </div>
+          <div class="form-group">
+            <label>
+              Auto-Refresh Interval:
+            </label>
+            <select class="form-control" name="refreshinterval" ng-model="reportconfig.refreshinterval">
+              <option value="10" selected>10 minutes</option>
+              <option value="5">5 minutes</option>
+              <option value="1">1 minute</option>
+            </select>
           </div>
           <div class="form-group">
             <label>

@@ -3,12 +3,17 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
     getDonations: function(options) {
       var _this = this, 
       settings = $.extend({
-        page: '1', 
+        page: '1',
         fault: $.noop, 
         success: $.noop, 
         complete: $.noop
       }, options || {});
-      
+      console.log(settings.pageSize);
+      if(!settings.pageSize) {
+        settings.pageSize = '200';
+      }
+      console.log(settings.pageSize);
+
       if(!settings.startDate || settings.startDate === '') {
         settings.startDate = moment().subtract(1, 'days').format('YYYY-MM-DD[T]HH:mm:ssZ');
       }
@@ -30,6 +35,7 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
                    (settings.campaignId && settings.campaignId !== '' ? (' and CampaignId = ' + settings.campaignId) : '') + 
                    (settings.formId && settings.formId !== '' ? (' and FormId = ' + settings.formId) : ''), 
         page: settings.page, 
+        pageSize: settings.pageSize,
         error: function() {
           /* TODO */
         }, 
@@ -51,6 +57,7 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
                 var transactionId = $(this).find('TransactionId').text(), 
                 campaignId = $(this).find('CampaignId').text(), 
                 formId = $(this).find('FormId').text(), 
+                paymentComments = $(this).find('Comments').text(), 
                 $payment = $(this).find('Payment'), 
                 $recognition = $(this).find('Recognition'), 
                 paymentAmount = Number($payment.find('Amount').text()), 
@@ -59,13 +66,11 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
                   currency: 'USD', 
                   minimumFractionDigits: 2
                 }), 
-                isAnonymous = $recognition.find('IsAnonymous').val(), 
                 paymentDate = $payment.find('PaymentDate').text(), 
                 paymentDateFormatted = moment(paymentDate).format('MM/DD/YYYY h:mma'), 
                 paymentTenderType = $payment.find('TenderType').text(), 
                 paymentTenderTypeFormatted = '', 
                 paymentCreditCardType = $payment.find('CreditCardType').text(), 
-                paymentComments = $(this).find('Comments').text(), 
                 $donor = $(this).find('Donor'), 
                 $donorName = $donor.find('ConsName'), 
                 donorFirstName = $donorName.find('FirstName').text(), 
@@ -74,6 +79,7 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
                 $donorHomeAddress = $(this).find('HomeAddress'), 
                 donorHomeCity = $donorHomeAddress.find('City').text(), 
                 donorHomeState = $donorHomeAddress.find('State').text(), 
+                isAnonymous = $recognition.find('IsAnonymous').text(), 
                 $recurringPayment = $(this).find('RecurringPayment'), 
                 originalTransactionId = transactionId, 
                 donationType = 'One-Time';
@@ -147,7 +153,8 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
               settings.success(donations);
             }
             
-            if($records.length === 200) {
+            console.log(settings.pageSize);
+            if($records.length === settings.pageSize) {
               var nextPageSettings = $.extend({}, settings);
               
               nextPageSettings.page = '' + (Number(settings.page) + 1);
