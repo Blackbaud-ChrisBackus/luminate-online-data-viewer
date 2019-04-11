@@ -15,7 +15,6 @@ dataViewerControllers.controller('DonationDetailReportViewController', ['$scope'
     datelabel: 'Last 24 Hours', 
     startdate: moment().subtract(1, 'days'), 
     enddate: moment(), 
-    pagesize: '',
     donationcampaign: '', 
     donationform: ''
   }, StorageService.getStoredData('reportconfig_donations_detail') || {});
@@ -114,11 +113,9 @@ dataViewerControllers.controller('DonationDetailReportViewController', ['$scope'
        $scope.reportconfig.donationform.FormId) {
       formId = $scope.reportconfig.donationform.FormId;
     }
-    
     DonationService.getDonations({
       startDate: $scope.reportconfig.startdate.format('YYYY-MM-DD[T]HH:mm:ssZ'), 
       endDate: $scope.reportconfig.enddate.format('YYYY-MM-DD[T]HH:mm:ssZ'), 
-      pageSize: $scope.reportconfig.pagesize,
       campaignId: campaignId, 
       formId: formId, 
       success: function(donations) {
@@ -130,11 +127,14 @@ dataViewerControllers.controller('DonationDetailReportViewController', ['$scope'
               addDonation(this);
             });
           }
-          
+          if(!$scope.reportconfig.pagesize){
+            $scope.reportconfig.pagesize = '200';
+          }
           DataTableService.init('.report-table', {
             'order': [
-              [9, 'desc']
-            ]
+              [10, 'desc']
+            ],
+            'pageLength' : $scope.reportconfig.pagesize
           });
         }
       }, 
@@ -143,6 +143,12 @@ dataViewerControllers.controller('DonationDetailReportViewController', ['$scope'
           refreshUpdateTime();
           
           $('.content .js--loading-overlay').addClass('hidden');
+        }
+        if($scope.reportconfig.refreshinterval != 'none'){
+          var autoRefresh = $timeout(function() {
+            DataTableService.destroy('.report-table');
+            $scope.refreshReport();
+          }, $scope.reportconfig.refreshinterval);
         }
       }
     });
@@ -168,7 +174,8 @@ dataViewerControllers.controller('DonationDetailReportViewController', ['$scope'
     
     getDonations();
   };
-  
+
+
   $scope.blurReportConfigTypeAhead = function(e) {
     $timeout(function() {
       if($(e.target).is('.ng-invalid-editable')) {
@@ -185,7 +192,7 @@ dataViewerControllers.controller('DonationDetailReportViewController', ['$scope'
     
     $scope.refreshReport();
   };
-  
+
   $scope.download = function() {
     var csvData = 'Transaction ID,Campaign,Form,Donation Amount,First Name,Last Name,Email Address,City,State,Donation Date,Donation Type,Payment Type';
     $.each($scope.donations, function() {

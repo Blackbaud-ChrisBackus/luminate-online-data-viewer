@@ -8,11 +8,6 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
         success: $.noop, 
         complete: $.noop
       }, options || {});
-      console.log(settings.pageSize);
-      if(!settings.pageSize) {
-        settings.pageSize = '200';
-      }
-      console.log(settings.pageSize);
 
       if(!settings.startDate || settings.startDate === '') {
         settings.startDate = moment().subtract(1, 'days').format('YYYY-MM-DD[T]HH:mm:ssZ');
@@ -35,7 +30,6 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
                    (settings.campaignId && settings.campaignId !== '' ? (' and CampaignId = ' + settings.campaignId) : '') + 
                    (settings.formId && settings.formId !== '' ? (' and FormId = ' + settings.formId) : ''), 
         page: settings.page, 
-        pageSize: settings.pageSize,
         error: function() {
           /* TODO */
         }, 
@@ -153,8 +147,7 @@ dataViewerApp.factory('DonationService', ['WebServicesService', function(WebServ
               settings.success(donations);
             }
             
-            console.log(settings.pageSize);
-            if($records.length === settings.pageSize) {
+            if($records.length === '200') {
               var nextPageSettings = $.extend({}, settings);
               
               nextPageSettings.page = '' + (Number(settings.page) + 1);
