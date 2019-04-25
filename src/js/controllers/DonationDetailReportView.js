@@ -128,7 +128,7 @@ dataViewerControllers.controller('DonationDetailReportViewController', ['$scope'
             });
           }
           if(!$scope.reportconfig.pagesize){
-            $scope.reportconfig.pagesize = '200';
+            $scope.reportconfig.pagesize = '10';
           }
           DataTableService.init('.report-table', {
             'order': [
@@ -144,7 +144,8 @@ dataViewerControllers.controller('DonationDetailReportViewController', ['$scope'
           
           $('.content .js--loading-overlay').addClass('hidden');
         }
-        if($scope.reportconfig.refreshinterval != 'none'){
+        if($scope.reportconfig.refreshinterval != 'none' && $scope.reportconfig.refreshinterval != '' && $scope.reportconfig.refreshinterval){
+          console.log($scope.reportconfig.refreshinterval);
           var autoRefresh = $timeout(function() {
             DataTableService.destroy('.report-table');
             $scope.refreshReport();

@@ -18,7 +18,7 @@ dataViewerApp.factory('DonationCampaignService', ['WebServicesService', function
       }
       else {
         WebServicesService.query({
-          statement: 'select CampaignId, Title' + 
+          statement: 'select CampaignId, Title, Description, Type, Goal, CurrentlyRaisedAmount' + 
                      ' from DonationCampaign' + 
                      ' where IsArchived = \'false\'', 
           page: settings.page, 
@@ -26,6 +26,7 @@ dataViewerApp.factory('DonationCampaignService', ['WebServicesService', function
             /* TODO */
           }, 
           success: function(response) {
+            console.log(response);
             var $faultstring = $(response).find('faultstring');
             
             if($faultstring.length > 0) {
@@ -41,11 +42,19 @@ dataViewerApp.factory('DonationCampaignService', ['WebServicesService', function
               else {
                 $records.each(function() {
                   var campaignId = $(this).find('CampaignId').text(), 
-                  campaignTitle = $(this).find('Title').text();
+                  campaignTitle = $(this).find('Title').text(),
+                  campaignDescription = $(this).find('Description').text(),
+                  campaignType = $(this).find('Type').text(),
+                  campaignGoal = $(this).find('Goal').text(),
+                  campaignRaised = $(this).find('CurrentlyRaisedAmount').text();
                   
                   var donationCampaign = {
                     'CampaignId': campaignId, 
-                    'Title': campaignTitle
+                    'Title': campaignTitle,
+                    'Description' : campaignDescription,
+                    'Type' : campaignType,
+                    'Goal' : campaignGoal,
+                    'CurrentlyRaisedAmount' : campaignRaised
                   };
                   
                   donationCampaigns.push(donationCampaign);

@@ -1,11 +1,10 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Donations <small>{{updateTime}}</small>
+      Campaign <small>{{updateTime}}</small>
     </h1>
   </section>
   <section class="content">
-    <div class="row">
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
@@ -20,103 +19,39 @@
               <button type="button" class="btn btn-box-tool" ng-click="download()">
                 <i class="fa fa-floppy-o"></i>
               </button>
-              <input type="file" class="hidden js--report-save-as" nwsaveas="donations-detail.csv">
+              <input type="file" class="hidden js--report-save-as" nwsaveas="donations-summary.csv">
             </div>
           </div>
           <div class="box-body">
             <table class="table table-bordered table-striped report-table">
-              <thead>
-                <tr>
-                  <th>
-                    Transaction ID
-                  </th>
-                  <th>
-                    Campaign
-                  </th>
-                  <th>
-                    Form
-                  </th>
-                  <th>
-                    Donation Amount
-                  </th>
-                  <th>
-                    Anonymous
-                  </th>
-                  <th>
-                    First Name
-                  </th>
-                  <th>
-                    Last Name
-                  </th>
-                  <th>
-                    Email Address
-                  </th>
-                  <th>
-                    City
-                  </th>
-                  <th>
-                    State
-                  </th>
-                  <th>
-                    Donation Date
-                  </th>
-                  <th>
-                    Donation Type
-                  </th>
-                  <th>
-                    Payment Type
-                  </th>
-                  <th>
-                    Comments
-                  </th>
-                </tr>
-              </thead>
               <tbody>
-                <tr ng-repeat="donation in donations">
-                  <td>
-                    {{donation.TransactionId}}
-                  </td>
-                  <td>
-                    {{donation.CampaignId}}
-                  </td>
-                  <td>
-                    {{donation.FormId}}
-                  </td>
-                  <td>
-                    <span class="hidden">{{donation.Payment.Amount}}</span>
-                    {{donation.Payment._AmountFormatted}}
-                  </td>
-                  <td>
-                    {{donation.IsAnonymous}}
-                  </td>
-                  <td>
-                    {{donation.Donor.ConsName.FirstName}}
-                  </td>
-                  <td>
-                    {{donation.Donor.ConsName.LastName}}
-                  </td>
-                  <td>
-                    <a href="mailto:{{donation.Donor.PrimaryEmail}}">{{donation.Donor.PrimaryEmail}}</a>
-                  </td>
-                  <td>
-                    {{donation.Donor.HomeAddress.City}}
-                  </td>
-                  <td>
-                    {{donation.Donor.HomeAddress.State}}
-                  </td>
-                  <td>
-                    <span class="hidden">{{donation.Payment.PaymentDate}}</span>
-                    {{donation.Payment._PaymentDateFormatted}}
-                  </td>
-                  <td>
-                    {{donation._DonationType}}
-                  </td>
-                  <td>
-                    {{donation.Payment._TenderTypeFormatted}}
-                  </td>
-                  <td>
-                    {{donation.Comments}}
-                  </td>
+                <tr>
+                  <td>Goal</td>
+                  <td>{{camp.goal}}</td>
+                </tr>
+                <tr>
+                  <td>Current Total</td>
+                  <td>{{camp.totalDollars}}</td>
+                </tr>
+                <tr>
+                  <td>Total Number of Gifts</td>
+                  <td>{{camp.totalGifts}}</td>
+                </tr>
+                <tr>
+                  <td>Current Goal Progress</td>
+                  <td>{{camp.progress}}</td>
+                </tr>
+                <tr>
+                  <td>Total Gifts Today</td>
+                  <td>{{camp.todayGifts}}</td>
+                </tr>
+                <tr>
+                  <td>$1000 or More</td>
+                  <td>{{camp.overThousand}}</td>
+                </tr>
+                <tr>
+                  <td>Incentive Gifts</td>
+                  <td>{{camp.incentiveGifts}}</td>
                 </tr>
               </tbody>
             </table>
@@ -158,20 +93,13 @@
           </div>
           <div class="form-group">
             <label>
-              Results Per Page:
+              Summary Interval:
             </label>
-            <input id="pagesize" type="number" min="1" max="500" class="form-control" placeholder="10" ng-model="reportconfig.pagesize">
-          </div>
-          <div class="form-group">
-            <label>
-              Auto-Refresh Interval:
-            </label>
-            <select class="form-control" name="refreshinterval" ng-model="reportconfig.refreshinterval">
-              <option value="none" selected="selected">None</option>
-              <option value="600000" >Every 10 minutes</option>
-              <option value="300000">Every 5 minutes</option>
-              <option value="60000">Every 1 minute</option>
-              <option value="10000">Every 10 seconds</option>
+            <select class="form-control" name="summaryinterval" ng-model="reportconfig.summaryinterval">
+              <option value="hourly" selected>Hourly</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
             </select>
           </div>
           <div class="form-group">

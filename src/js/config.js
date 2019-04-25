@@ -30,6 +30,9 @@ dataViewerApp.config(['$routeProvider', function($routeProvider) {
   }).when('/report-donations-detail', {
     templateUrl: 'views/report-donations-detail.html', 
     controller: 'DonationDetailReportViewController'
+  }).when('/report-campaign-summary', {
+    templateUrl: 'views/report-campaign-summary.html', 
+    controller: 'CampaignSummaryReportViewController'
   }).when('/report-ecommerce-summary', {
     templateUrl: 'views/report-ecommerce-summary.html', 
     controller: 'EcommerceSummaryReportViewController'
