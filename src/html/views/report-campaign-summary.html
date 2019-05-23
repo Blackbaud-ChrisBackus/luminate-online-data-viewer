@@ -24,33 +24,39 @@
           </div>
           <div class="box-body">
             <table class="table table-bordered table-striped report-table">
+              <thead>
+                <tr>
+                  <th>
+                    Goal
+                  </th>
+                  <th>
+                    Current Total
+                  </th>
+                  <th>
+                    Total Number of Gifts
+                  </th>
+                  <th>
+                    Current Goal Progress
+                  </th>
+                  <th>
+                    Total Gifts Today
+                  </th>
+                  <th>
+                    $1000 or More
+                  </th>
+                  <th>
+                    Incentive Gifts
+                  </th>
+                </tr>
+              </thead>
               <tbody>
                 <tr>
-                  <td>Goal</td>
                   <td>{{camp.goal}}</td>
-                </tr>
-                <tr>
-                  <td>Current Total</td>
                   <td>{{camp.totalDollars}}</td>
-                </tr>
-                <tr>
-                  <td>Total Number of Gifts</td>
                   <td>{{camp.totalGifts}}</td>
-                </tr>
-                <tr>
-                  <td>Current Goal Progress</td>
                   <td>{{camp.progress}}</td>
-                </tr>
-                <tr>
-                  <td>Total Gifts Today</td>
                   <td>{{camp.todayGifts}}</td>
-                </tr>
-                <tr>
-                  <td>$1000 or More</td>
                   <td>{{camp.overThousand}}</td>
-                </tr>
-                <tr>
-                  <td>Incentive Gifts</td>
                   <td>{{camp.incentiveGifts}}</td>
                 </tr>
               </tbody>
